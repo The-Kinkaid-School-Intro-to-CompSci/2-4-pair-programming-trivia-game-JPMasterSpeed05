@@ -246,6 +246,7 @@ function createQuestionCard(question){
     //Step 6
     //Step 3A: Create the header of the card
     console.log(question);
+    let questionCardHeader = document.createElement('h1');
     //create a header (div element) with class card-header
 
     //create an title (h5 element) with the class card-title
@@ -327,18 +328,23 @@ function createQuestionCard(question){
  */
 async function getQuestions(){
     console.log("Fetching questions from the API");
-    const baseURL = 'https://opentdb.com/api.php?amount=4&category=11';
+    const baseURL = 'https://opentdb.com/api.php?';
     
     //Step 1: get the user input (number of questions to get)
     //get the number of questions to fetch from the user input
 
+    const numberOfQuestionsInput = document.querySelector('#numberOfQuestions');
+    let numberOfQuestions = numberOfQuestionsInput.value;
+    console.log("amount=" + numberOfQuestions);
     //update the totalQuestions variable
-
+    let numberOfQuestionsString = "amount=" + numberOfQuestions;
     //Step 2: get the user input (category)
-
+    const categorySelect = document.querySelector(`#categorySelect`);
+    let categorySelectValue = categorySelect.value
+    let categorySelectString = "&category=" + categorySelectValue;
 
     //build the full URL
-    const fullURL = `${baseURL}`;
+    const fullURL = `${baseURL}${numberOfQuestionsString}${categorySelectString}`;
     console.log("Full URL: ", fullURL);
     //make the fetch request
     const response = await fetch(fullURL);
@@ -366,7 +372,7 @@ async function handleGetQuestionsBtn(){
         //save the questions data to the triviaQuestions array
         triviaQuestions = questionsData.results;
     }
-    catch(error){
+   catch(error){
         console.error("Error fetching questions data: ", error);
     }
     //fix the question text
